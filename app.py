@@ -6,14 +6,17 @@ from flask import Flask, redirect, render_template, request, url_for
 app = Flask(__name__)
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+@app.route("/", methods=("GET",))
+def clear():
+    return render_template("index.html", result="")
 
-@app.route("/", methods=("GET", "POST"))
+@app.route("/results", methods=("GET", "POST"))
 def index():
     if request.method == "POST":
-        animal = request.form["animal"]
+        position = request.form["position"]
         response = openai.Completion.create(
             model="text-davinci-002",
-            prompt=generate_prompt(animal),
+            prompt=generate_prompt(position),
             temperature=0.6,
         )
         return redirect(url_for("index", result=response.choices[0].text))
@@ -22,14 +25,14 @@ def index():
     return render_template("index.html", result=result)
 
 
-def generate_prompt(animal):
-    return """Suggest three names for an animal that is a superhero.
-
-Animal: Cat
-Names: Captain Sharpclaw, Agent Fluffball, The Incredible Feline
-Animal: Dog
-Names: Ruff the Protector, Wonder Canine, Sir Barks-a-Lot
-Animal: {}
+def generate_prompt(position):
+    return """Suggest three top NFL players to draft in fantasy football this season. 
+    
+Position: RB
+Names: Nick Chubb, Jonathan Taylor, Christan McCaffrey
+Position: Wide Receiver
+Names: Davante Adams, Tyreek Hill, Cooper Kupp
+Position: {}
 Names:""".format(
-        animal.capitalize()
+        position.capitalize()
     )

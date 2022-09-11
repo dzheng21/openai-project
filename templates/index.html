@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <head>
-  <title>OpenAI Quickstart</title>
+  <title>NFL Fantasy Winner</title>
   <link
     rel="shortcut icon"
-    href="{{ url_for('static', filename='dog.png') }}"
+    href="{{ url_for('static', filename='football-field-stylized-isometric-vector-8268631.jpg') }}"
   />
   <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
 </head>
 
 <body>
-  <img src="{{ url_for('static', filename='dog.png') }}" class="icon" />
-  <h3>Name my pet</h3>
-  <form action="/" method="post">
-    <input type="text" name="animal" placeholder="Enter an animal" required />
-    <input type="submit" value="Generate names" />
+  <img src="{{ url_for('static', filename='football-field-stylized-isometric-vector-8268631.jpg') }}" class="icon" />
+  <h3>Help me win my NFL Fantasy league!</h3>
+  <body> Fantasy is hard. Who should I draft? Who should I drop? <br> Enter a position in Fantasy and use AI to help you win your league this year! <br> <br></body>
+  <form action="/results" method="post">
+    <input type="text" name="position" placeholder="Enter a position" required />
+    <input type="submit" value="Generate players" />
   </form>
   {% if result %}
-  <div class="result">{{ result }}</div>
+  <div class="result">{{ result }}</div> 
+  <br>
+  <form action="/" method="get"><button style="align-self:center;width:30%;">Clear</button></form>
   {% endif %}
 </body>
